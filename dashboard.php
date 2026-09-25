@@ -83,11 +83,19 @@ require_once __DIR__ . '/includes/header.php';
                     <span>Dean / Dept Admin</span>
                 </div>
             </div>
-            <button class="sidebar-toggle-btn" id="sidebarToggleBtn" title="Collapse / Expand Sidebar">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-            </button>
+            <div class="sidebar-actions-group">
+                <button class="sidebar-toggle-btn" id="sidebarToggleBtn" title="Collapse / Expand Sidebar">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <button class="sidebar-close-mobile-btn" id="closeSidebarMobileBtn" aria-label="Close sidebar drawer" title="Close Drawer">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
         </div>
 
         <!-- Sidebar Navigation Links -->
@@ -129,11 +137,23 @@ require_once __DIR__ . '/includes/header.php';
             </div>
         </nav>
     </aside>
+    <!-- Off-Canvas Sidebar Mobile Backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
     <!-- 2. Main Dashboard Area -->
     <main class="dashboard-main">
         <!-- Sticky Top Dashboard Action Bar -->
         <div class="dashboard-topbar">
+            <!-- Mobile Sidebar Drawer Trigger Button -->
+            <button class="mobile-sidebar-toggle-btn" id="mobileSidebarToggle" aria-label="Open navigation sidebar" title="Menu">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+                <span class="mobile-sidebar-toggle-text">Menu</span>
+            </button>
+
             <!-- Search Bar -->
             <div class="search-box">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

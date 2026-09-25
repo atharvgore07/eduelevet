@@ -20,19 +20,48 @@ document.addEventListener('DOMContentLoaded', () => {
 function initNavigation() {
     const mobileBtn = document.getElementById('mobileMenuBtn');
     const navMenu = document.getElementById('navMenu');
+    const navBackdrop = document.getElementById('mobileNavBackdrop');
 
     if (mobileBtn && navMenu) {
-        mobileBtn.addEventListener('click', () => {
-            const isOpen = navMenu.classList.toggle('open');
+        const toggleMenu = (shouldOpen) => {
+            const isOpen = typeof shouldOpen === 'boolean' ? shouldOpen : !navMenu.classList.contains('open');
+            navMenu.classList.toggle('open', isOpen);
+            mobileBtn.classList.toggle('open', isOpen);
             mobileBtn.setAttribute('aria-expanded', isOpen);
+            if (navBackdrop) {
+                navBackdrop.classList.toggle('active', isOpen);
+            }
+            document.body.classList.toggle('nav-locked', isOpen);
+        };
+
+        mobileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMenu();
         });
 
+        if (navBackdrop) {
+            navBackdrop.addEventListener('click', () => toggleMenu(false));
+        }
+
         // Close menu on link click
-        navMenu.querySelectorAll('.nav-link').forEach(link => {
+        navMenu.querySelectorAll('.nav-link, .nav-actions a').forEach(link => {
             link.addEventListener('click', () => {
-                navMenu.classList.remove('open');
-                mobileBtn.setAttribute('aria-expanded', 'false');
+                toggleMenu(false);
             });
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMenu.classList.contains('open')) {
+                toggleMenu(false);
+            }
+        });
+
+        // Auto close menu if screen resized above mobile breakpoint
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 992 && navMenu.classList.contains('open')) {
+                toggleMenu(false);
+            }
         });
     }
 }
@@ -253,13 +282,60 @@ function clearInputError(input) {
    5. DASHBOARD INTERACTIONS (SIDEBAR, MODALS, SEARCH)
    ========================================================================== */
 function initDashboardInteractions() {
-    // 5.1 Sidebar Collapse Toggle
+    // 5.1 Sidebar Desktop Collapse & Mobile Off-Canvas Drawer
     const sidebar = document.getElementById('dashboardSidebar');
     const sidebarToggle = document.getElementById('sidebarToggleBtn');
+    const mobileSidebarToggle = document.getElementById('mobileSidebarToggle');
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+    const closeSidebarMobileBtn = document.getElementById('closeSidebarMobileBtn');
 
-    if (sidebarToggle && sidebar) {
-        sidebarToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
+    if (sidebar) {
+        // Desktop collapse toggle
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('collapsed');
+            });
+        }
+
+        // Mobile drawer open/close
+        const toggleMobileDrawer = (open) => {
+            const shouldOpen = typeof open === 'boolean' ? open : !sidebar.classList.contains('mobile-open');
+            sidebar.classList.toggle('mobile-open', shouldOpen);
+            if (sidebarBackdrop) {
+                sidebarBackdrop.classList.toggle('active', shouldOpen);
+            }
+            document.body.classList.toggle('drawer-locked', shouldOpen);
+        };
+
+        if (mobileSidebarToggle) {
+            mobileSidebarToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMobileDrawer(true);
+            });
+        }
+
+        if (sidebarBackdrop) {
+            sidebarBackdrop.addEventListener('click', () => toggleMobileDrawer(false));
+        }
+
+        if (closeSidebarMobileBtn) {
+            closeSidebarMobileBtn.addEventListener('click', () => toggleMobileDrawer(false));
+        }
+
+        // Close mobile drawer when clicking navigation link
+        sidebar.querySelectorAll('.sidebar-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 992) {
+                    toggleMobileDrawer(false);
+                }
+            });
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && sidebar.classList.contains('mobile-open')) {
+                toggleMobileDrawer(false);
+            }
         });
     }
 

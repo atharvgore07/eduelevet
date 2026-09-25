@@ -27,8 +27,12 @@ if ($hour >= 5 && $hour < 12) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no">
     <meta name="description" content="EduPulse - College Academic & Student Management System Portal. Modern, responsive, and secure.">
     <title><?php echo htmlspecialchars($page_title); ?></title>
     
@@ -123,3 +127,5 @@ if ($hour >= 5 && $hour < 12) {
             </nav>
         </div>
     </header>
+    <!-- Mobile Navigation Overlay Backdrop -->
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
